@@ -2,13 +2,20 @@
 BUILDS_DIR="builds"
 mkdir -p $BUILDS_DIR
 VERSION="2.7.8"
-docker build -t ruby-builder \
+COMMAND=$(command -v docker) || COMMAND=$(command -v podman)
+if [ -z "$COMMAND" ]; then
+    echo "Docker or Podman is required to run this script."
+    exit 1
+fi
+
+# Building
+$COMMAND build -t ruby-builder \
     --build-arg USERNAME=$(whoami) \
     --build-arg USER_UID=1001 \
     --build-arg USER_GID=1001 \
     --build-arg VERSION=$VERSION 2.7/.
 rm -f $BUILDS_DIR/ruby-$VERSION.tar.gz
-docker run --rm ruby-builder cat /ruby-$VERSION.tar.gz > $BUILDS_DIR/ruby-$VERSION.tar.gz
+$COMMAND run --rm ruby-builder cat /ruby-$VERSION.tar.gz > $BUILDS_DIR/ruby-$VERSION.tar.gz
 
 # Installing
 echo "Do you want to install ruby $VERSION to your rbenv? (y/n)"
