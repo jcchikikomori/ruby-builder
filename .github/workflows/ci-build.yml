@@ -1,0 +1,68 @@
+name: Build Ruby Versions
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-ruby-2-7:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: 2.7.8
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Ruby 2.7.8
+        run: |
+          docker build -t ruby-builder-2.7 \
+            --build-arg USERNAME=rbenv \
+            --build-arg USER_UID=1001 \
+            --build-arg USER_GID=1001 \
+            --build-arg VERSION=${{ env.VERSION }} \
+            2.7/.
+
+      - name: Extract Ruby tarball
+        run: |
+          mkdir -p builds
+          docker run --rm ruby-builder-2.7 cat /ruby-${{ env.VERSION }}.tar.gz > builds/ruby-${{ env.VERSION }}.tar.gz
+
+      - name: Upload Ruby 2.7.8 Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ruby-${{ env.VERSION }}
+          path: builds/ruby-${{ env.VERSION }}.tar.gz
+          retention-days: 90
+
+  build-ruby-3-4:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: 3.4.7
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Ruby 3.4.7
+        run: |
+          docker build -t ruby-builder-3.4 \
+            --build-arg USERNAME=rbenv \
+            --build-arg USER_UID=1001 \
+            --build-arg USER_GID=1001 \
+            --build-arg VERSION=${{ env.VERSION }} \
+            3.4/.
+
+      - name: Extract Ruby tarball
+        run: |
+          mkdir -p builds
+          docker run --rm ruby-builder-3.4 cat /ruby-${{ env.VERSION }}.tar.gz > builds/ruby-${{ env.VERSION }}.tar.gz
+
+      - name: Upload Ruby 3.4.7 Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ruby-${{ env.VERSION }}
+          path: builds/ruby-${{ env.VERSION }}.tar.gz
+          retention-days: 90
