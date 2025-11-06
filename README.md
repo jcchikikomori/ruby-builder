@@ -1,14 +1,29 @@
-# How to use
+# Ruby Builder
 
-## Build & install Ruby 2
+Hassle-free Ruby version builder using Virtualization.
+My main objective is to prevent other users to have headaches on just setting up the legacy projects on Ruby on Rails, just like my past experiences, particularly on Silicon Macintosh machines (Apple M1 and higher), Arch Linux, and newer versions of Ubuntu.
 
-Execute `./build-ruby2.sh`.
+The best thing on this one is, it can install onto your `rbenv`!
 
-## Build & install Ruby 3
+Suck on that, GCC 14!
 
-Execute `./build-ruby3.sh`.
+## Requirements
 
-## TODOs
+- Docker or Podman (OSS)
+- [rbenv](https://github.com/rbenv/rbenv) - Ruby Version Manager
+
+## How to use
+
+### Build & install Ruby
+
+Execute `./build.sh`.
+
+#### Currently supported versions
+
+- Any 2.5.x & 2.7.x release
+- 3.4.x and higher
+
+### TODOs
 
 - [ ] Dynamic script to install any releases of Ruby.
 - [ ] Linter for shell scripts.
