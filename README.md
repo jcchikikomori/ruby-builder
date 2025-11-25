@@ -20,8 +20,10 @@ Execute `./build.sh`.
 
 #### Currently supported versions
 
-- Any 2.5.x & 2.7.x release
-- 3.4.x and higher
+- 2.5.0 to 2.7.x
+  - Uses the Dockerfile specialized for ruby 2.5, using Ubuntu 20.04
+- 3.1.x to 3.4.x
+  - Uses the Dockerfile specialized for ruby 3.1, using Ubuntu 22.04
 
 ### TODOs
 
